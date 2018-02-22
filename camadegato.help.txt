@@ -1,0 +1,41 @@
+camadegato{NULL}
+
+Cria um gráfico de cama de gato (também conhecido como gráfico espaguete)
+
+Descrição
+
+camadegato cria um gráfico de observações pareadas em que pontos pareados são ligados por linhas. A função aceita séries de dados com mais de duas observações.
+
+Uso
+
+camadegato = function(m, col="black", lcol="black", lty=1, llwd=1, lwd=1,
+                      xlab="", ylab="", bg="white",
+                      pch=19, xspc = 0.25, labels = NULL, xaxt="s",...)
+
+Argumentos
+
+m - matriz de dados, cada linha representa um par ou série de observações que serão ligadas pelas linhas. Cada coluna representa um tratamento ou periodo de observações.
+
+... - argumentos adicionais passados para a função plot.
+
+col, pch, bg, cex- argumentos que são usados para especificar os pontos de dados (cor principal, símbolo, cor de fundo e tamanho). Se um vetor for fornecido, cada valor será usado para uma linha da matriz m. Se o comprimento do vetor for menor do que o número de linhas da matriz m, a regra da ciclagem é usada.
+
+lcol, lty, llwd - cor, tipo e largura das linhas conectando dados pareados. Assim como col, aceita múltiplas cores.
+
+xlab, ylab - rótulos dos eixos x e y
+
+xspc - espaçamento entre os dados e o fim do gráfico no eixo x
+
+labels - rótulos do eixo x, se nenhum valor for fornecido, a função usa os nomes das colunas da matriz m. Se a matriz não possuir nomes, as letras do alfabeto são usadas.
+
+xaxt - se for igual a n, o eixo x não é desenhado. Qualquer outro valor faz o eixo ser desenhado.
+
+Exemplos
+
+dados = cbind(1:10, sample(11:20))
+cores = rainbow(10)
+camadegato(dados, labels=c("antes","depois"), pch=c(19,17), col=cores)
+
+dados = cbind(1:10, sample(11:20), sample(21:30))
+cores = rainbow(10)
+camadegato(dados, labels=c("antes","depois","bem depois"), pch=c(19,17), col=cores)
