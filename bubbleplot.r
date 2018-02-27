@@ -1,21 +1,27 @@
 #==========================================================
 if(!require(grDevices))
-  warning("Esta fun??o requer o pacote [grDevices].\nInstale o pacote antes de usar a fun??o.")
+  warning("This function requires the package [grDevices].\nInstalll it to continue.")
 if(!require(scales))
-  warning("Esta fun??o requer o pacote [scales].\nInstale o pacote antes de usar a fun??o.")
+  warning("This function requires the package [scales].\nInstalll it to continue.")
+
 #==========================================================
 bubbleplot = function (x, ...) UseMethod("bubbleplot")
 #==========================================================
 bubbleplot.default = function(x, y, col="black", bg="grey",
-                              pch=19, alpha=0.5, mcex=5, add=FALSE, ...)
+                              pch=19, alpha=0.5, mcex=5, add=FALSE, 
+                              mobs = NULL, ...)
 {
   cols = c(col, bg)
   cols = scales::alpha(cols, alpha=alpha)
   
   dat = data.frame(grDevices::xyTable(x,y))
  
+  if(is.null(mobs))
+    mobs = max(dat[,3])
+  
   dat$radius = sqrt(dat[,3])
-  maxr = max(dat$radius)
+  maxr = sqrt(mobs)
+  
   dat$radius = mcex * dat$radius/maxr
   
   n = pretty(dat[,3])
@@ -33,7 +39,7 @@ bubbleplot.default = function(x, y, col="black", bg="grey",
 }
 #==========================================================
 bubbleplot.formula = function(formula, col="black", bg="grey",
-                              pch=19, alpha=0.5, mcex=5, add=FALSE,
+                              pch=19, alpha=0.5, mcex=5, add=FALSE, mobs=NULL,
                               data=NULL,...)
 {
   if (is.null(data))
@@ -44,7 +50,7 @@ bubbleplot.formula = function(formula, col="black", bg="grey",
   ans = list()
   
   ans = bubbleplot.default(x = mf[,2], y=mf[,1], col = col, 
-                           bg=bg, pch=pch, alpha=alpha, mcex=mcex, add=add, ...)
+                           bg=bg, pch=pch, alpha=alpha, mcex=mcex, add=add, mobs = mobs, ...)
 
   invisible(ans)  
 } 
@@ -55,5 +61,7 @@ bubbleplot.formula = function(formula, col="black", bg="grey",
 #x = round(rnorm(100, 10, 2))
 #z = round(rnorm(100, 10, 2))
 #y = round(2*x-z + sample((1:5)/2, 100, replace=TRUE))
-#bubbleplot(y~x+z, alpha=c(1,0.5))
+
+#bubbleplot(y~x, alpha=0.5)
+#bubbleplot(y=y, x=z, alpha=0.5)
 #==========================================================
